@@ -1,0 +1,175 @@
+<p>I collect all the most common questions and answers to a knowledge base so that we can share and learn together.</p>
+
+<blockquote>
+  <p>The good way to learn is sharing</p>
+</blockquote>
+
+<hr>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<p><div class="toc">
+<ul>
+<li><ul>
+<li><a href="#table-of-contents">Table of contents</a></li>
+<li><a href="#knowledge-base">Knowledge base</a><ul>
+<li><a href="#why-is-ruby-considered-slower-than-other-programming-languages-like-cgojava">Why is Ruby considered slower than other programming languages like C/Go/Java…?</a></li>
+<li><a href="#why-is-ruby-on-rails-slow">Why is Ruby on Rails slow?</a></li>
+<li><a href="#why-choosing-ruby-on-rails">Why choosing Ruby on Rails</a></li>
+<li><a href="#how-to-improve-ruby-on-rails-performance">How to improve Ruby on Rails performance</a></li>
+<li><a href="#how-to-improve-performance-of-web-server">How to improve performance of web server</a></li>
+<li><a href="#what-are-the-most-common-types-of-automation-tests">What are the most common types of automation tests</a></li>
+<li><a href="#what-are-the-differences-between-tdd-and-bdd">What are the differences between TDD and BDD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+
+
+<h2 id="knowledge-base">Knowledge base</h2>
+
+
+
+<h3 id="why-is-ruby-considered-slower-than-other-programming-languages-like-cgojava">Why is Ruby considered slower than other programming languages like C/Go/Java…?</h3>
+
+<ul>
+<li>Is a dynamic language - dynamic languages generate more CPU instructions than a compiled one.</li>
+<li>Is a interpreted language - interpreted languages will tend to be slower than a compiled one.</li>
+<li>Slow garbase collector.</li>
+<li>Method calls are slow.</li>
+<li>Does not support multi-threading (except JRuby).</li>
+</ul>
+
+
+
+<h3 id="why-is-ruby-on-rails-slow">Why is Ruby on Rails slow?</h3>
+
+<ul>
+<li>Written in Ruby - which is considered slower than other compiled programming languages because of its architecture.</li>
+<li>Features rich framework - it does a lot works per requests.</li>
+<li>It’s only capable of excuting the code in single thread of single process. Ruby will spin an entire new process to handle each request and comsume a large amount of RAM.</li>
+</ul>
+
+
+
+<h3 id="why-choosing-ruby-on-rails">Why choosing Ruby on Rails</h3>
+
+<ul>
+<li>Written in Ruby - a powerful and magically programming language.</li>
+<li>The speed at which you can develop.</li>
+<li>Matured web framework, with a huge of community and lot of gems. It’s the most important.</li>
+<li>Database migration.</li>
+<li>Rails console - very powerful tool to quickly run extra queries, computations on the production without implementing new features.</li>
+<li>It is consistent with structure and methodology.</li>
+<li>Fully integrated with frontend technologies like SASS, Coffee.</li>
+</ul>
+
+
+
+<h3 id="how-to-improve-ruby-on-rails-performance">How to improve Ruby on Rails performance</h3>
+
+<ul>
+<li>Consider using: <br>
+<ul><li>(JRuby](<a href="http://jruby.org/">http://jruby.org/</a>) - high performance and support real multi-threading.</li>
+<li><a href="http://www.rubyenterpriseedition.com/">Ruby Enterprise Edition (REE)</a> - use 33% less memory on average and be compatible with Phusion Passenger.</li></ul></li>
+<li>Use symbol instead of string if possible.</li>
+<li>Improve database queries.</li>
+<li>Use DBMS Group By or Math caculations instead of interating over every record and doing computations.</li>
+<li>When dealing with a large file, process files line by line until it reach EOF.</li>
+<li>Always think about avoiding making a copy of data, consider using: gsub!, map!, select!, reject!, …</li>
+<li>Be aware when using each or map, because it iterate over collection in one chunk. Use find_each instead.</li>
+<li>Avoid using each_with_index if not needed, because it create an extra object while looping.</li>
+<li>Use Sidekiq/Resque as an asynchoronous queue for proccessing heavy jobs in the background.</li>
+<li>Caching: <br>
+<ul><li>Page caching (can not be used with before filter, eg: authentication).</li>
+<li>Action caching.</li>
+<li>Fragment caching.</li>
+<li>Low level caching (using Rails.cache).</li>
+<li>SQL caching (query caches will be destroyed at the end of the action).</li>
+<li>HTTP caching.</li></ul></li>
+</ul>
+
+
+
+<h3 id="how-to-improve-performance-of-web-server">How to improve performance of web server</h3>
+
+<ul>
+<li><p>Consider choosing a faster language to use CPU parallism:</p>
+
+<ul><li>Multi-processes to get around global VM locks like Ruby and Python.</li>
+<li>Go’s routines.</li>
+<li>Elixir’s processes.</li>
+<li>Node’s event driven.</li>
+<li>Java multi-threading.</li></ul></li>
+<li><p>Choosing a suitable framework is not less important than choosing programming languages. For example, if you decide to use Go, you have lot of things to consider a better framework between: Revel<a href="#fn:revel" id="fnref:revel" title="See footnote" class="footnote">1</a>, Beego<a href="#fn:beego" id="fnref:beego" title="See footnote" class="footnote">2</a>, Gin<a href="#fn:gin" id="fnref:gin" title="See footnote" class="footnote">3</a>, Martini<a href="#fn:martini" id="fnref:martini" title="See footnote" class="footnote">4</a>, Gorilla, Web.go<a href="#fn:webgo" id="fnref:webgo" title="See footnote" class="footnote">5</a> or Goji<a href="#fn:goji" id="fnref:goji" title="See footnote" class="footnote">6</a>,…</p></li>
+<li><p>Consider about system architecture and application architecture:</p>
+
+<ul><li>Database replication.</li>
+<li>Multiple application servers.</li>
+<li>Load balancing with reverse proxy.</li>
+<li>Ajax loading.</li>
+<li>HTTP caching.</li>
+<li>Memcache.</li>
+<li>Client side caching.</li>
+<li>Client side rendering.</li>
+<li>Use background job processor to handle heavy jobs.</li>
+<li>Optimize database queries: <br>
+<ul><li>Store Procedures/Functions.</li>
+<li>Views.</li></ul></li>
+<li>Integrate 3rd party search engine like ElasticSearch, Solr, Sphinx for better searching, reducing heavy queries to database. <br>
+Networks:</li>
+<li>Increase througput - how many requests our server can serve at the same time.</li>
+<li>Decrease latency - latency is the amound of time it takes our server to respond to a singke request.</li></ul></li>
+</ul>
+
+
+
+<h3 id="what-are-the-most-common-types-of-automation-tests">What are the most common types of automation tests</h3>
+
+<p>There are three most common types of automation tests: <br>
+- Unit tests - individual, test a single piece of code, be isolated from other dependencies like network access or database access. <br>
+- Integration tests - multiple pieces are tested together. Eg: testing database access code against a test database. <br>
+- Acceptance tests (or also called functional tests) - test the entire of application. Eg: use Selenium to automatically run a browser.</p>
+
+
+
+<h3 id="what-are-the-differences-between-tdd-and-bdd">What are the differences between TDD and BDD</h3>
+
+<p><strong>TDD</strong> <br>
+TDD (Test-Driven Development) is a process when you write and run your test to ensure that having a very high test coverage.</p>
+
+<p>The TDD process consists of the following steps: <br>
+1. Start by writing a test <br>
+2. Run the test and any other tests. At this point, your newly added test should fail. If it doesn’t fail here, it might not be testing the right thing and thus has a bug in it. <br>
+3. Write the minimum amount of code required to make the test pass <br>
+4. Run the tests to check the new test passes <br>
+5. Optionally refactor your code <br>
+6. Repeat from 1</p>
+
+
+
+<div class="flow-chart"><svg height="1078.76953125" version="1.1" width="663.90625" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; top: 0.0625px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endblock33-obj1456" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1457" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1458" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1460" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1462" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1463" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1465" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1467" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1468" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endblock33-obj1470" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker></defs><rect x="0" y="0" width="50.75" height="39" rx="20" ry="20" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="st" transform="matrix(1,0,0,1,123.3516,56.8633)"></rect><text x="10" y="19.5" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="stt" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,123.3516,56.8633)"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Start</tspan></text><rect x="0" y="0" width="153.734375" height="39" rx="0" ry="0" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op1" transform="matrix(1,0,0,1,71.8594,202.7266)"></rect><text x="10" y="19.5" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="op1t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,71.8594,202.7266)"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Start by writing a test</tspan></text><path fill="#ffffff" stroke="#000000" d="M72.36328125,36.181640625L0,72.36328125L144.7265625,144.7265625L289.453125,72.36328125L144.7265625,0L0,72.36328125" stroke-width="2" font-family="sans-serif" font-weight="normal" id="cond1" class="flowchart" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;" transform="matrix(1,0,0,1,4,295.7266)"></path><text x="77.36328125" y="72.36328125" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="cond1t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,4,295.7266)"><tspan dy="5.50390625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Run the test. Does it pass?</tspan></text><rect x="0" y="0" width="242.515625" height="39" rx="0" ry="0" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op2" transform="matrix(1,0,0,1,370.9219,348.5898)"></rect><text x="10" y="19.5" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="op2t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,370.9219,348.5898)"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Write the minimum amount of code</tspan></text><path fill="#ffffff" stroke="#000000" d="M72.36328125,36.181640625L0,72.36328125L144.7265625,144.7265625L289.453125,72.36328125L144.7265625,0L0,72.36328125" stroke-width="2" font-family="sans-serif" font-weight="normal" id="cond2" class="flowchart" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;" transform="matrix(1,0,0,1,347.4531,441.5898)"></path><text x="77.36328125" y="72.36328125" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="cond2t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,347.4531,441.5898)"><tspan dy="5.50390625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Run the test. Does it pass?</tspan></text><rect x="0" y="0" width="197.890625" height="39" rx="0" ry="0" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op3" transform="matrix(1,0,0,1,393.2344,693.1797)"></rect><text x="10" y="19.5" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="op3t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,393.2344,693.1797)"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Refactor code and test again</tspan></text><path fill="#ffffff" stroke="#000000" d="M72.36328125,36.181640625L0,72.36328125L144.7265625,144.7265625L289.453125,72.36328125L144.7265625,0L0,72.36328125" stroke-width="2" font-family="sans-serif" font-weight="normal" id="cond3" class="flowchart" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;" transform="matrix(1,0,0,1,347.4531,786.1797)"></path><text x="77.36328125" y="72.36328125" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="cond3t" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,347.4531,786.1797)"><tspan dy="5.50390625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Run the test. Does it pass?</tspan></text><rect x="0" y="0" width="44.421875" height="39" rx="20" ry="20" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="e" transform="matrix(1,0,0,1,469.9688,1037.7695)"></rect><text x="10" y="19.5" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" id="et" class="flowchartt" font-weight="normal" transform="matrix(1,0,0,1,469.9688,1037.7695)"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">End</tspan></text><path fill="none" stroke="#000000" d="M148.7265625,95.86328125C148.7265625,95.86328125,148.7265625,182.40375552047044,148.7265625,199.72875281094548" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1456)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><path fill="none" stroke="#000000" d="M148.7265625,241.7265625C148.7265625,241.7265625,148.7265625,281.38066244125366,148.7265625,292.72700158460066" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1457)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><path fill="none" stroke="#000000" d="M148.7265625,440.453125C148.7265625,440.453125,148.7265625,465.453125,148.7265625,465.453125C148.7265625,465.453125,318.453125,465.453125,318.453125,465.453125C318.453125,465.453125,318.453125,177.7265625,318.453125,177.7265625C318.453125,177.7265625,148.7265625,177.7265625,148.7265625,177.7265625C148.7265625,177.7265625,148.7265625,193.10000705718994,148.7265625,199.73581027425826" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1458)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="153.7265625" y="450.453125" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">yes</tspan></text><path fill="none" stroke="#000000" d="M293.453125,368.08984375C293.453125,368.08984375,314.453125,368.08984375,314.453125,368.08984375C314.453125,368.08984375,318.453125,360.08984375,322.453125,368.08984375C322.453125,368.08984375,357.3592354953289,368.08984375,367.92651503981324,368.08984375" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1460)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="298.453125" y="358.08984375" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.51171875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">no</tspan></text><path fill="none" stroke="#000000" d="M492.1796875,387.58984375C492.1796875,387.58984375,492.1796875,427.24394369125366,492.1796875,438.59028283460066" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1462)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><path fill="none" stroke="#000000" d="M492.1796875,586.31640625C492.1796875,586.31640625,492.1796875,672.8568805204704,492.1796875,690.1818778109455" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1463)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="497.1796875" y="596.31640625" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.50390625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">yes</tspan></text><path fill="none" stroke="#000000" d="M636.90625,513.953125C636.90625,513.953125,661.90625,513.953125,661.90625,513.953125C661.90625,513.953125,661.90625,323.58984375,661.90625,323.58984375C661.90625,323.58984375,492.1796875,323.58984375,492.1796875,323.58984375C492.1796875,323.58984375,492.1796875,338.96328830718994,492.1796875,345.59909152425826" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1465)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="641.90625" y="503.953125" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">no</tspan></text><path fill="none" stroke="#000000" d="M492.1796875,732.1796875C492.1796875,732.1796875,492.1796875,771.8337874412537,492.1796875,783.1801265846007" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1467)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><path fill="none" stroke="#000000" d="M492.1796875,930.90625C492.1796875,930.90625,492.1796875,1017.4467242704704,492.1796875,1034.7717215609455" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1468)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="497.1796875" y="940.90625" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">yes</tspan></text><path fill="none" stroke="#000000" d="M636.90625,858.54296875C636.90625,858.54296875,661.90625,858.54296875,661.90625,858.54296875C661.90625,858.54296875,661.90625,323.58984375,661.90625,323.58984375C661.90625,323.58984375,492.1796875,323.58984375,492.1796875,323.58984375C492.1796875,323.58984375,492.1796875,338.96328830718994,492.1796875,345.59909152425826" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj1470)" font-family="sans-serif" font-weight="normal" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: sans-serif; font-weight: normal;"></path><text x="641.90625" y="848.54296875" text-anchor="start" font-family="sans-serif" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: sans-serif; font-size: 14px; font-weight: normal;" font-weight="normal"><tspan dy="5.51171875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">no</tspan></text></svg></div>
+
+<p>Best way to make TDD easy: <br>
+1. Decide the inputs and outputs. <br>
+2. Choose function signature (what parameters, whether to return something) <br>
+3. Decide on one tiny aspect of the functionality. <br>
+4. Implement test. <br>
+5. Implement code.</p>
+
+<p><strong>BDD</strong> <br>
+BDD (Behavior-Driven Development) is a set of best practices for writting great tests. BDD should be used together with TDD and unit testing methods.</p>
+
+<p>References: <br>
+    - <a href="https://codeutopia.net/blog/2015/03/01/unit-testing-tdd-and-bdd/">What’s the difference between Unit Testing, TDD and BDD?</a> <br>
+    - <a href="https://codeutopia.net/blog/2016/10/10/5-step-method-to-make-test-driven-development-and-unit-testing-easy/">5 step method to make test-driven development and unit testing easy</a></p>
+
+
+
+<h2 id="contribution">Contribution</h2>
+
+<p>I would very much welcome any contribution. Please make a Pull Request or send an email to Nobi Hoang <a href="mailto:nobi.hoa@gmail.com">nobi.hoa@gmail.com</a>.</p><div class="footnotes"><hr><ol><li id="fn:revel"><a href="http://revel.github.io/">Revel</a> - a fully featured, pretty not much setup, less third party dependencies framework, which is very appealing for many startups and small groups. <a href="#fnref:revel" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:beego"><a href="https://beego.me/">Beego</a> - an open source framework to build and develop your applications in the Go way. <a href="#fnref:beego" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:gin"><a href="https://gin-gonic.github.io/gin/">Gin</a> - extremely fast, 40 times faster than Martini. <a href="#fnref:gin" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:martini"><a href="http://martini.codegangsta.io/">Martini</a> - extremely clean, good documentation, nice routing, great third party support base. <a href="#fnref:martini" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:webgo"><a href="https://github.com/hoisie/web">Web.go</a> - very lightweight and easy to create web application in Go. <a href="#fnref:webgo" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:goji"><a href="https://goji.io/">Goji</a> - A minimalistic and flexible request multiplexer for Go <a href="#fnref:goji" title="Return to article" class="reversefootnote">↩</a></li></ol></div>
